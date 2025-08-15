@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pato Place Restaurant</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+.confirmation-popup {
+    position: fixed;
+    top: 20px;
+    right: -400px; /* Hidden initially */
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: right 0.5s ease, opacity 0.3s ease;
+    z-index: 9999;
+    opacity: 0;
+}
+
+.confirmation-popup.show {
+    right: 20px;
+    opacity: 1;
+}
+
+.confirmation-popup.success {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.confirmation-popup.error {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+}
+
+.confirmation-popup i {
+    font-size: 1.2rem;
+}
+</style>
+
+    <style>
+        /* --- Custom Styles --- */
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #000000;
+            --accent-color: #c8a97e;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; /* Prevents horizontal scroll */
+        }
+
+        /* --- Slideshow Hero Section --- */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+        .slide1 {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("Griling.jpeg");
+        }
+        .slide2 {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("kitchen.jpeg");
+        }
+
+        .hero-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        /* --- Typing Animation --- */
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            border-right: .15em solid var(--primary-color);
+            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+
+        .look-menu-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 12px 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .look-menu-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            transition: background-color 0.5s ease, padding 0.5s ease;
+            padding: 20px 0;
+        }
+
+        .navbar.scrolled {
+            background-color: var(--secondary-color) !important;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            border: 2px solid var(--primary-color);
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .navbar-brand span {
+            font-size: 0.7rem;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .navbar .nav-link, .navbar .social-icons a {
+            color: var(--primary-color) !important;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-link:hover, .navbar .social-icons a:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .social-icons a {
+            font-size: 1rem;
+        }
+
+        .navbar-toggler {
+            border-color: var(--primary-color);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* --- Slideshow Dots --- */
+        .slideshow-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 992px) {
+            .navbar .nav-link {
+                margin: 10px 0;
+                text-align: center;
+            }
+            .navbar-collapse {
+                background-color: rgba(0,0,0,0.8);
+                padding: 20px;
+                border-radius: 5px;
+            }
+            .social-icons {
+                justify-content: center;
+                margin-top: 15px;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">PATO <span>RESTAURANT</span></a>
+
+            <!-- Toggler/collapsible Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reservation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex social-icons align-items-center">
+                    <a href="#" class="nav-link"><i class="fab fa-tripadvisor"></i></a>
+                    <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
+                    <div class="vr text-white mx-2 d-none d-lg-block" style="height: 20px;"></div>
+                    <button class="navbar-toggler d-none d-lg-block" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Slideshow -->
+    <header class="hero-section">
+        <div class="slideshow-container">
+            <div class="slide slide1 active"></div>
+            <div class="slide slide2"></div>
+        </div>
+        <div class="hero-content">
+            <h2>Welcome to</h2>
+            <h1 id="typewriter">PATO PLACE</h1>
+            <button class="look-menu-btn">LOOK MENU</button>
+        </div>
+        <div class="slideshow-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+    </header>
+<!-- Welcome Section -->
+<section class="welcome-section py-5" style="background-color: #f8f8f8;">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Text Content -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <p class="text-danger" style="font-family: 'Great Vibes', cursive; font-size: 2rem; margin-bottom: 0.5rem;">
+                    Italian Restaurant
+                </p>
+                <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 3rem; color: #000;">
+                    WELCOME
+                </h2>
+                <p style="font-family: 'Montserrat', sans-serif; color: #555; font-size: 1rem; line-height: 1.8;">
+                    Donec quis lorem nulla. Nunc eu odio mi. Morbi nec lobortis est.
+                    Sed fringilla, nunc sed imperdiet lacinia, nisl ante egestas mi,
+                    ac facilisis ligula sem id neque.
+                </p>
+                <a href="#" class="text-uppercase" style="font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; color: #000; text-decoration: none;">
+                    Our Story <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+
+            <!-- Image Placeholder -->
+            <div class="col-lg-6">
+                <img src="steak.png" alt="Welcome to Pato Place" >
+            </div>
+        </div>
+    </div>
+</section>
+    </div>
+    <!-- Discover Parallax Section -->
+<section class="discover-section text-white d-flex align-items-center justify-content-center text-center">
+    <div class="parallax-overlay">
+        <p class="discover-subtitle">Discover</p>
+        <h2 class="discover-title">PATO PLACE</h2>
+    </div>
+</section>
+
+</section>
+<!-- Feature Services Section -->
+<section class="features-section py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Feature Box 1 -->
+            <div class="col-md-4">
+                <div class="text-center">
+                    <!-- Placeholder for Image -->
+                    <div class="feature-img" style="background-color: #ccc; height: 200px; border-radius: 10px; background-size: cover; background-position: center; background-image: url('Dine.jpeg');">
+                        <!-- Replace with: background-image: url('your-image.jpg') -->
+                    </div>
+                    <h5 class="mt-4 text-uppercase" style="font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px;">
+                        Romantic Restaurant
+                    </h5>
+                    <p class="text-muted" style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem;">
+                        Phasellus lorem enim, luctus ut velit eget, convallis egestas eros.
+                    </p>
+                    <a href="#" class="learn-more-link text-dark text-uppercase" style="font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-decoration: none;">
+                        Learn More <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature Box 2 -->
+            <div class="col-md-4">
+                <div class="text-center">
+                    <!-- Placeholder for Image -->
+                    <div class="feature-img" style="background-color: #ccc; height: 200px; border-radius: 10px; background-size: cover; background-position: center; background-image: url('Briskit.jpeg');">
+                        <!-- Replace with: background-image: url('your-image.jpg') -->
+                    </div>
+                    <h5 class="mt-4 text-uppercase" style="font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px;">
+                        Delicious Food
+                    </h5>
+                    <p class="text-muted" style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem;">
+                        Aliquam eget aliquam magna, quis posuere risus ac justo ipsum nibh urna
+                    </p>
+                    <a href="#" class="learn-more-link text-dark text-uppercase" style="font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-decoration: none;">
+                        Learn More <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature Box 3 -->
+            <div class="col-md-4">
+                <div class="text-center">
+                    <!-- Placeholder for Image -->
+                    <div class="feature-img" style="background-color: #ccc; height: 200px; border-radius: 10px; background-size: cover; background-position: center; background-image: url('wine.jpeg')">
+                        <!-- Replace with: background-image: url('your-image.jpg') -->
+                    </div>
+                    <h5 class="mt-4 text-uppercase" style="font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px;">
+                        Red Wines You Love
+                    </h5>
+                    <p class="text-muted" style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem;">
+                        Sed ornare ligula eget tortor tempor, quis porta tellus dictum.
+                    </p>
+                    <a href="#" class="learn-more-link text-dark text-uppercase" style="font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-decoration: none;">
+                        Learn More <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Discover Our Menu Section -->
+<section class="menu-section py-5">
+  <div class="container text-center mb-5">
+    <h6 class="text-muted" style="font-style: italic; font-family: 'Montserrat', sans-serif;">DISCOVER</h6>
+    <h2 class="text-uppercase fw-bold" style="font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">Our Menu</h2>
+  </div>
+
+  <div class="container">
+    <div class="row g-3">
+
+      <!-- Left Side (70%) -->
+      <div class="col-lg-9">
+        <div class="row g-3">
+
+          <!-- Top Row: Lunch & Dinner -->
+          <div class="col-md-6">
+            <div class="menu-image tall-image" style="background-image: url('Lunch.jpeg');">
+              <div class="overlay-button">Lunch</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="menu-image tall-image" style="background-image: url('food.jpeg');">
+              <div class="overlay-button">Dinner</div>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Happy Hour (Full width under both) -->
+          <div class="col-12">
+            <div class="menu-image wide-image" style="background-image: url('busy-hour.jpeg');">
+              <div class="overlay-button">Happy Hour</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Side (30%): 3 stacked boxes -->
+      <div class="col-lg-3 d-flex flex-column justify-content-between">
+        <div class="menu-image small-rect" style="background-image: url('Drinks.jpeg');">
+          <div class="overlay-button">Drinks</div>
+        </div>
+        <div class="menu-image small-rect" style="background-image: url('Appetizers.jpeg'); height: 384px; width: 100%;">
+          <div class="overlay-button">Appetizers</div>
+        </div>
+        <div class="menu-image small-rect" style="background-image: url('Cake.jpeg');">
+          <div class="overlay-button">Desserts</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Reservation Section -->
+<section class="reservation-section">
+  <div class="container d-flex flex-wrap">
+    <!-- Left: Reservation Form -->
+    <div class="reservation-form col-lg-6 col-md-12">
+      <p class="reservation-subtitle">Reservation</p>
+      <h2 class="reservation-title">BOOK TABLE</h2>
+      
+      <form id="reservationForm">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label for="res-date">Date</label>
+            <input type="date" id="res-date" class="form-control unavailable-date">
+          </div>
+          <div class="col-6 mb-3">
+            <label for="res-name">Name</label>
+            <input type="text" id="res-name" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label for="res-time">Time</label>
+            <select id="res-time" class="form-control unavailable-time">
+              <option>12:00 PM</option>
+              <option>1:00 PM</option>
+              <option>2:00 PM</option>
+              <option>3:00 PM</option>
+              <!-- Add more -->
+            </select>
+          </div>
+          <div class="col-6 mb-3">
+            <label for="res-phone">Phone</label>
+            <input type="tel" id="res-phone" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label for="res-people">People</label>
+            <select id="res-people" class="form-control">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="col-6 mb-3">
+            <label for="res-email">Email</label>
+            <input type="email" id="res-email" class="form-control">
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="button" class="btn book-btn" onclick="showPopup()">Book Now!</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right: Table Image -->
+    <div class="reservation-booking">
+      <img src="Book.jpeg" alt="Table" class="img-fluid tall-img">
+    </div>
+  </div>
+
+  <!-- Pop-Up Confirmation -->
+  <div id="confirmationPopup" class="confirmation-popup">
+    <p>Booking Confirmed!</p>
+    <span>Check your email for confirmation message.</span>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Contact Info -->
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <p><strong>Phone:</strong> <a href="tel:+923001234567">+92 300 1234567</a></p>
+      <p><strong>Email:</strong> <a href="mailto:info@pato-restaurant.com">info@pato-restaurant.com</a></p>
+      <p><strong>Hours:</strong> 12:00 PM – 11:00 PM</p>
+      <p><strong>Location:</strong> <a href="https://www.google.com/maps?q=Liberty+Market,+Lahore" target="_blank">Liberty Market, Lahore</a></p>
+    </div>
+
+<!-- Latest Tweets -->
+<div class="footer-col">
+  <h3>Latest Feedback</h3>
+  <div class="tweet">
+    <p>“Exceptional taste and ambience!”</p>
+    <span>- @TheFoodCritic</span>
+  </div>
+  <div class="tweet">
+    <p>“A 5-star experience. Must visit again.”</p>
+    <span>- @HungryInLahore</span>
+  </div>
+  <div id="user-feedback-section"></div> <!-- New feedbacks appear here -->
+</div>
+
+<!-- Feedback Form -->
+<div class="footer-col">
+  <h3>Feedback</h3>
+  <form class="feedback-form" onsubmit="submitFeedback(event)">
+    <input type="text" id="feedback-name" placeholder="Name" required>
+    <input type="email" id="feedback-email" placeholder="Email" required>
+    <textarea id="feedback-message" placeholder="Your feedback..." rows="3" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="thankyou-message" class="thankyou-message" style="display: none;">
+    <p>Thank you for your feedback!</p>
+  </div>
+</div>
+  <div class="footer-bottom w-100 text-center mt-4">
+    <p> ©2025 Pato Restaurant. Designed with passion.</p>
+  </div>
+</footer>
+<div id="loadingOverlay">
+    <div class="spinner"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- Navbar Scroll Effect ---
+        const nav = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });  // --- Slideshow Logic ---
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let currentSlide = 0;
+    const slideInterval = 5000; // 5 seconds
+
+    function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+    setInterval(nextSlide, slideInterval);
+
+    // --- Typing Animation Reset ---
+    const typewriterElement = document.getElementById('typewriter');
+    const originalText = 'PATO PLACE';
+    setInterval(() => {
+        typewriterElement.style.animation = 'none';
+        typewriterElement.offsetHeight; /* trigger reflow */
+        typewriterElement.style.animation = null;
+    }, slideInterval * slides.length);
+
+function showPopupMessage(message, type) {
+    const popup = document.getElementById("confirmationPopup");
+    
+    // Set type class
+    popup.className = `confirmation-popup ${type}`;
+    
+    // Add icon depending on type
+    const icon = type === "error" 
+        ? '<i class="fas fa-times-circle"></i>' 
+        : '<i class="fas fa-check-circle"></i>';
+
+    popup.innerHTML = `${icon} <span>${message}</span>`;
+
+    // Show popup
+    popup.classList.add("show");
+
+    // Hide after 5 seconds
+    setTimeout(() => popup.classList.remove("show"), 5000);
+}
+</script>
+<script>
+    document.querySelector(".book-btn").addEventListener("click", () => {
+    const bookingDate = document.getElementById("res-date").value;
+    const booking = {
+        date: bookingDate,
+        name: document.getElementById("res-name").value,
+        time: document.getElementById("res-time").value,
+        phone: document.getElementById("res-phone").value,
+        email: document.getElementById("res-email").value,
+        people: document.getElementById("res-people").value
+    };
+
+    // Check if date is in the past
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to midnight
+    const selectedDate = new Date(bookingDate);
+
+    if (selectedDate < today) {
+        showPopupMessage("⚠ You cannot book a reservation for a past date.", "error");
+        return;
+    }
+
+    // Show loading overlay
+    document.getElementById("loadingOverlay").classList.add("show");
+
+    // Use absolute URL for backend
+    fetch("http://localhost:5000/reserve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(booking)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            showPopupMessage(`⚠ ${data.error}`, "error");
+        } else {
+            showPopupMessage(
+                `Booking Confirmed, ${data.reservation.name}!<br>
+                Check your email at <strong>${data.reservation.email}</strong>.`,
+                "success"
+            );
+        }
+    })
+    .finally(() => {
+        setTimeout(() => {
+            document.getElementById("loadingOverlay").classList.remove("show");
+        }, 300);
+    });
+});
+
+function showPopupMessage(message, type) {
+    const popup = document.getElementById("confirmationPopup");
+
+    // Reset classes & set type
+    popup.className = `confirmation-popup ${type}`;
+
+    // Set icon
+    const icon = type === "error" 
+        ? '<i class="fas fa-times-circle"></i>' 
+        : '<i class="fas fa-check-circle"></i>';
+
+    popup.innerHTML = `${icon} <span>${message}</span>`;
+
+    // Show popup
+    popup.classList.add("show");
+
+    // Hide after 5 seconds
+    setTimeout(() => popup.classList.remove("show"), 5000);
+}
+</script>
+</body>
+</html>

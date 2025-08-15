@@ -1,0 +1,435 @@
+.welcome-section {
+    background-color: #f8f8f8;
+}
+
+.welcome-section h2 {
+    color: #000;
+}
+
+.welcome-section .text-danger {
+    color: #c0392b !important;
+}
+
+.welcome-image-placeholder {
+    background-image: url('steak.jpeg'); /* Replace with actual image if desired */
+}
+.col-lg-6 img {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    display: block;
+    margin: 0 auto;
+}
+/* Parallax Discover Section */
+.discover-section {
+    background-image: url('your-image.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.parallax-overlay {
+    z-index: 2;
+}
+.confirmation-popup {
+    position: fixed;
+    top: 20px;
+    right: -400px; /* Hidden initially */
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: right 0.5s ease, opacity 0.3s ease;
+    z-index: 9999;
+    opacity: 0;
+}
+
+.confirmation-popup.show {
+    right: 20px;
+    opacity: 1;
+}
+
+.confirmation-popup.success {
+    background: linear-gradient(135deg, #28a745, #218838); /* Green gradient */
+}
+
+.confirmation-popup.error {
+    background: linear-gradient(135deg, #dc3545, #b02a37); /* Red gradient */
+}
+
+.confirmation-popup i {
+    font-size: 1.2rem;
+}
+
+
+.discover-subtitle {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 1000;
+    font-size: 2rem;
+    color: #c0392b;
+    margin-bottom: 0.5rem;
+}
+
+.discover-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+.learn-more-link:hover {
+    color: #c8a97e;
+}
+.feature-img:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+/* Parallax Discover Section */
+.discover-section {
+    background-image: url('Resturant101.jpeg'); /* Use a higher resolution image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 35vh;
+    position: relative;
+    z-index: 1;
+}
+
+.parallax-overlay {
+    z-index: 2;
+}
+
+.discover-subtitle {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #c0392b;
+    margin-bottom: 0.5rem;
+}
+
+.discover-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+.menu-image {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menu-image:hover {
+  transform: scale(1.02);
+}
+
+.overlay-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.menu-image:hover .overlay-button {
+  background-color: #c0392b; /* Red hover */
+  color: #fff;
+}
+
+/* Image height controls */
+.tall-image {
+  height: 450px;
+}
+
+.wide-image {
+  height: 200px;
+}
+.col-lg-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Controls space between images */
+}
+
+.small-rect {
+  height: 130px; /* Slightly reduced for better fit */
+  margin-bottom: 0; /* Remove bottom margin, use gap instead */
+}
+/* Reservation Section */
+.reservation-section {
+  background-color: #fef9f5;
+  padding: 60px 20px;
+  position: relative;
+}
+
+.reservation-subtitle {
+  font-family: 'Great Vibes', cursive;
+  color: #c0392b;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.reservation-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 2.8rem;
+  margin-bottom: 40px;
+}
+
+.form-control {
+  border-radius: 0;
+  border: 1px solid #ccc;
+}
+
+.unavailable-date,
+.unavailable-time {
+  border-bottom: 2px solid red;
+}
+
+.book-btn {
+  background-color: black;
+  color: white;
+  padding: 10px 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.book-btn:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+/* Right Side Image */
+.tall-img {
+  max-height: 600px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Pop-up confirmation */
+.confirmation-popup {
+  position: fixed;
+  right: -100%;
+  top: 20%;
+  background: #fff;
+  border-left: 5px solid #ff0000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  padding: 30px;
+  width: 320px;
+  z-index: 999;
+  transition: right 0.4s ease-in-out;
+}
+
+.confirmation-popup.show {
+  right: 0;
+}
+
+.confirmation-popup p {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.confirmation-popup span {
+  font-size: 0.95rem;
+  color: #ffffff;
+  display: block;
+  margin-top: 10px;
+}
+
+.confirmation-popup strong {
+  color: #c0392b;
+}
+.reservation-booking img {
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    display: block;
+    margin: 0 auto;
+    margin-left: 140px;
+    border-radius: 20px;
+}.footer {
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 60px 20px 30px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer h3 {
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.footer p, .footer a, .footer span {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 8px;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.footer a {
+  color: #d32f2f;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #ffffff;
+}
+
+.footer .tweet {
+  background-color: #1e1e1e;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.05);
+}
+
+.footer .tweet span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  padding: 10px;
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.feedback-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #d32f2f;
+  color: white;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.feedback-form button:hover {
+  background-color: #ffffff;
+  color: #121212;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.85rem;
+  color: #888;
+}
+.thankyou-message {
+  margin-top: 10px;
+  color: #76ff03;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+.footer {
+  background-color: #111; /* dark grey/black */
+  color: #ccc;
+  padding: 40px 0 20px;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.footer-col {
+  flex: 1 1 250px;
+  margin: 20px;
+}
+
+.footer-col h3 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  padding-top: 10px;
+  border-top: 1px solid #333;
+  margin-top: 20px;
+  padding-top: 15px;
+  margin-bottom: 190px;
+}
+
+#loadingOverlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+}
+
+#loadingOverlay.show {
+    display: flex;
+}
+
+.spinner {
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
